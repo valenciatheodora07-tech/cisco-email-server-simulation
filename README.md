@@ -100,3 +100,6 @@ From    : nicho@compnet.com
 Subject : Tes Simulation
 Sent    : Mon Sep 14 2026 16:37:17
 Message : ini tes simulation kirim email
+
+```
+📂 **Cisco Packet Tracer File:** [Download Simulation (.pkt)](simulation/Cross_Domain_Email_Simulation.pkt)
