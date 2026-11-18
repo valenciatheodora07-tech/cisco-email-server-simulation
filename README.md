@@ -14,7 +14,6 @@ This repository documents the design, configuration, and protocol-level packet a
   - [1. Outbound Email Flow (SMTP & DNS)](#1-outbound-email-flow-smtp--dns)
   - [2. Inbound Email Flow (POP3)](#2-inbound-email-flow-pop3)
 - [Verification Results](#-verification-results)
-- [Author](#-author)
 
 ---
 
