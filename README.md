@@ -1,122 +1,95 @@
 # cisco-email-server-simulation
 Perancangan, konfigurasi, dan simulasi infrastruktur Email Server lintas domain (SMTP, POP3, DNS, dan TCP) menggunakan Cisco Packet Tracer beserta analisis pertukaran paket.
-# 📧 Cross-Domain Email Server Configuration & Packet Analysis (Cisco Packet Tracer)
+# 📧 Cross-Domain Email Server Simulation — Cisco Packet Tracer
 
-![Cisco Packet Tracer](https://img.shields.io/badge/Tool-Cisco%20Packet%20Tracer-1BA0D7?style=flat-square&logo=cisco)
-![Protocols](https://img.shields.io/badge/Protocols-SMTP%20%7C%20POP3%20%7C%20DNS%20%7C%20TCP-success?style=flat-square)
-![Architecture](https://img.shields.io/badge/Architecture-Cross--Domain%20Mail-orange?style=flat-square)
-
-Proyek perancangan, konfigurasi, dan simulasi infrastruktur **Email Server** lintas domain (`compnet.com` dan `gooaya.com`) menggunakan **Cisco Packet Tracer**. Proyek ini berfokus pada integrasi layanan **SMTP**, **POP3**, dan **DNS** serta analisis mendalam terhadap alur pertukaran paket pada setiap lapisan protokol saat proses pengiriman dan penerimaan email berlangsung.
+Proyek ini mendokumentasikan perancangan, konfigurasi, serta analisis pertukaran paket tingkat protokol pada infrastruktur **Email Server lintas domain** menggunakan **Cisco Packet Tracer**. Simulasi ini membedah secara mendalam bagaimana klien dan server berkomunikasi menggunakan protokol **TCP**, **DNS**, **SMTP**, dan **POP3** dalam skenario pengiriman serta penerimaan pesan elektronik antar-domain (`compnet.com` ke `gooaya.com`).
 
 ---
 
-## 🌐 Topologi & Arsitektur Jaringan
-
-Jaringan dirancang menggunakan topologi *star* yang berpusat pada satu switch (`2950-24 Switch0`) untuk menghubungkan seluruh perangkat klien dan infrastruktur server dalam satu segmen lokal:
-
-```text
-                       [CompNet Server]
-                        (192.168.1.6)
-                              |
-      [PC0] -------+          |          +------- [First Server]
-                   |          |          |
-      [PC1] -------+--- [ Switch0 ] -----+------- [Second Server]
-                   |     (2950-24)       |
-      [PC2] -------+          |          +------- [DNS Server]
-                              |
-                       [Gooaya Server]
-                        (192.168.1.5)
-```
-
-### Komponen Infrastruktur
-* **End Devices (Clients):** `PC0`, `PC1`, dan `PC2`.
-* **Network Switch:** `2950-24 Switch0`.
-* **Servers:** `CompNet Server` (terlabel `ComNet Server`), `Gooaya Server`, `DNS Server`, `First Server`, dan `Second Server`.
+## 📋 Daftar Isi
+- [Tujuan Proyek](#-tujuan-proyek)
+- [Arsitektur & Topologi Jaringan](#-arsitektur--topologi-jaringan)
+- [Tabel Pengalamatan & Konfigurasi Layanan](#-tabel-pengalamatan--konfigurasi-layanan)
+- [Analisis Alur Paket (Simulation Mode)](#-analisis-alur-paket-simulation-mode)
+  - [1. Alur Pengiriman Email (SMTP & DNS)](#1-alur-pengiriman-email-smtp--dns)
+  - [2. Alur Penerimaan Email (POP3)](#2-alur-penerimaan-email-pop3)
+- [Hasil Verifikasi](#-hasil-verifikasi)
 
 ---
 
-## ⚙️ Spesifikasi & Konfigurasi
-
-### 1. Konfigurasi Mail Server (`CompNet Server`)
-
-| Parameter | Nilai Konfigurasi |
-| :--- | :--- |
-| **Mode IPv4** | Static |
-| **IPv4 Address** | `192.168.1.6` |
-| **Subnet Mask** | `255.255.255.0` |
-| **Default Gateway** | `0.0.0.0` |
-| **DNS Server** | `0.0.0.0` |
-| **SMTP Service** | `ON` |
-| **POP3 Service** | `ON` |
-| **Domain Name** | `compnet.com` |
-| **Akun Terdaftar** | User: `nicho` \| Password: `11111` |
-
-### 2. Konfigurasi Email Client
-
-| Parameter | Client Pengirim (`PC2`) | Client Penerima (`PC1`) |
-| :--- | :--- | :--- |
-| **Your Name** | `nicho` | `miau` |
-| **Email Address** | `nicho@compnet.com` | `miau@gooaya.com` |
-| **Incoming Mail Server** | `192.168.1.6` | `192.168.1.5` |
-| **Outgoing Mail Server** | `192.168.1.6` | `192.168.1.5` |
-| **User Name** | `nicho` | `miau` |
+## 🎯 Tujuan Proyek
+1. Membangun dan mengintegrasikan node Email Server baru (`ComNet Server`) ke dalam jaringan lokal berbasis *switch* dengan topologi *star*.
+2. Mengonfigurasi layanan **SMTP** (*Simple Mail Transfer Protocol*) dan **POP3** (*Post Office Protocol v3*) beserta manajemen akun pengguna pada server.
+3. Menganalisis tahapan pertukaran paket (*packet flow*) secara *real-time* menggunakan **Simulation Mode**, mulai dari *TCP handshake*, resolusi domain via **DNS**, *mail relay* antar-server, hingga pengunduhan email oleh klien penerima.
 
 ---
 
-## 🛠️ Tahapan Implementasi
+## 🌐 Arsitektur & Topologi Jaringan
 
-1. **Integrasi Perangkat ke Topologi**
-   * Menambahkan node `Server-PT` baru sebagai **CompNet Server** dan menghubungkannya ke **Switch0** (`2950-24`).
-2. **Pengalamatan IP Statis**
-   * Mengatur antarmuka jaringan **CompNet Server** pada mode **Static** dengan alamat IPv4 `192.168.1.6` dan Subnet Mask `255.255.255.0`.
-3. **Deployment Layanan Email & Manajemen Akun**
-   * Mengaktifkan layanan **SMTP** dan **POP3** pada menu **Services → EMAIL** di **CompNet Server**.
-   * Mendaftarkan domain `compnet.com` serta membuat kredensial pengguna `nicho` (`11111`).
-4. **Provisioning Email Client**
-   * Mengonfigurasi profil email pengirim pada **PC2** (`nicho@compnet.com` mengarah ke server `192.168.1.6`) dan memvalidasi profil penerima pada **PC1** (`miau@gooaya.com` mengarah ke server `192.168.1.5`).
+Jaringan lokal dibangun menggunakan topologi *star* yang terpusat pada **Cisco Catalyst 2950-24 (`Switch0`)** sebagai penghubung seluruh node klien dan server:
+
+* **End Devices (Clients):** `PC0`, `PC1` (klien penerima), dan `PC2` (klien pengirim).
+* **Dedicated Servers:**
+  * `ComNet Server`: Email Server utama untuk domain `compnet.com`.
+  * `Gooaya Server`: Email Server tujuan untuk domain `gooaya.com`.
+  * `DNS Server`: Server resolusi nama domain untuk menerjemahkan alamat domain tujuan menjadi alamat IP.
+  * `First Server` & `Second Server`: Server pendukung infrastruktur jaringan lokal.
 
 ---
 
-## 🔬 Pengujian & Analisis Alur Paket
+## ⚙️ Tabel Pengalamatan & Konfigurasi Layanan
 
-Pengujian dilakukan menggunakan **Simulation Mode** pada Cisco Packet Tracer untuk mengamati mekanisme kerja protokol secara *end-to-end*.
+### 1. Konfigurasi Server
+| Nama Perangkat | Peran Layanan | IPv4 Address | Subnet Mask | Domain / Service Aktif |
+| :--- | :--- | :---: | :---: | :--- |
+| **ComNet Server** | Email Server (Asal) | `192.168.1.6` | `255.255.255.0` | Domain: `compnet.com` (`SMTP`: ON, `POP3`: ON) |
+| **Gooaya Server** | Email Server (Tujuan) | `192.168.1.5` | `255.255.255.0` | Domain: `gooaya.com` (`SMTP`: ON, `POP3`: ON) |
+| **DNS Server** | Name Resolution | — | — | `DNS`: ON (Pemetaan record `compnet.com` & `gooaya.com`) |
 
-### Skenario 1: Pengiriman Email Lintas Domain (`PC2` → `PC1`)
+### 2. Konfigurasi Mail Client
+| Perangkat | Nama Pengguna | Alamat Email | Incoming Mail Server | Outgoing Mail Server |
+| :--- | :---: | :--- | :---: | :---: |
+| **PC2 (Pengirim)** | `nicho` | `nicho@compnet.com` | `192.168.1.6` | `192.168.1.6` |
+| **PC1 (Penerima)** | `miau` | `miau@gooaya.com` | `192.168.1.5` | `192.168.1.5` |
 
-* **Payload Pengujian:**
-  * **To:** `miau@gooaya.com`
-  * **Subject:** `Tes Simulation`
-  * **Body:** `ini tes simulation kirim email`
+---
 
-* **Analisis Alur Paket (Detik `0.000` – `0.026`):**
-  1. **Pembentukan Koneksi Awal TCP (`0.000` – `0.004` detik):** `PC2` menginisiasi sesi koneksi TCP menuju `CompNet Server` melalui `Switch0` untuk membuka jalur komunikasi pengiriman pesan.
-  2. **Resolusi Nama Domain via DNS (`0.007` – `0.011` detik):** Karena alamat tujuan berada pada domain berbeda (`gooaya.com`), `CompNet Server` mengirimkan *DNS query* ke `DNS Server` melalui `Switch0` untuk memetakan nama domain tujuan ke alamat IP-nya (`192.168.1.5`).
-  3. **Transmisi Pesan via SMTP (`0.004` – `0.020` detik):** Protokol **SMTP** (*Simple Mail Transfer Protocol*) berjalan di atas sesi TCP untuk mengirim pesan dari `PC2` ke `CompNet Server`, kemudian meneruskannya ke `Gooaya Server` sebagai server penerima.
-  4. **Terminasi Sesi TCP (`0.020` – `0.026` detik):** Setelah seluruh data email berhasil diteruskan dan dikonfirmasi, kedua server dan klien saling bertukar paket TCP penutup untuk mengakhiri sesi dengan aman.
+## 🔍 Analisis Alur Paket (Simulation Mode)
 
-### Skenario 2: Pengambilan Email oleh Penerima (`PC1` ← `Gooaya Server`)
+Pengujian dilakukan dengan mengirimkan email dari `nicho@compnet.com` (`PC2`) kepada `miau@gooaya.com` (`PC1`) dengan subjek **`Tes Simulation`**.
 
-* **Analisis Alur Paket (Detik `0.000` – `0.015`):**
-  1. **Pembentukan Koneksi TCP (`0.000` – `0.004` detik):** Ketika tombol **Receive** dijalankan pada `PC1`, klien melakukan *TCP handshake* dengan `Gooaya Server` melalui `Switch0`.
-  2. **Sinkronisasi & Unduh Pesan via POP3 (`0.004` – `0.009` detik):** Protokol **POP3** (*Post Office Protocol version 3*) digunakan oleh `PC1` untuk mengautentikasi akun `miau` dan mengunduh pesan baru yang tersimpan pada `Gooaya Server`.
-  3. **Konfirmasi & Penutupan Sesi TCP (`0.009` – `0.015` detik):** `PC1` mengirimkan paket TCP konfirmasi penerimaan (`ACK`) dan menutup koneksi POP3 setelah pesan tersimpan di kotak masuk lokal.
+### 1. Alur Pengiriman Email (SMTP & DNS)
+Proses pengiriman pesan dari `PC2` menuju `Gooaya Server` melalui `ComNet Server` tercatat berlangsung selama **`0.000s` hingga `0.026s`**:
+
+1. **Pembentukan Koneksi Awal / TCP Handshake (`0.000s – 0.004s`):**
+   * `PC2` menginisiasi sesi komunikasi dengan mengirimkan paket `TCP` melalui `Switch0`.
+   * `ComNet Server` merespons paket tersebut untuk menyelesaikan proses *3-way handshake*.
+2. **Resolusi Nama Domain via DNS (`0.007s – 0.011s`):**
+   * Karena alamat tujuan berada pada domain berbeda (`gooaya.com`), `ComNet Server` mengirimkan *DNS query* melalui `Switch0` ke `DNS Server`.
+   * `DNS Server` membalas dengan alamat IP tujuan (`192.168.1.5`).
+3. **Transfer & Relay Pesan via SMTP (`0.004s – 0.020s`):**
+   * `PC2` mengirimkan data email ke `ComNet Server` menggunakan protokol `SMTP`.
+   * `ComNet Server` bertindak sebagai *Mail Transfer Agent (MTA)* yang meneruskan pesan `SMTP` tersebut ke `Gooaya Server` melalui `Switch0`.
+4. **Penutupan Koneksi TCP (`0.020s – 0.026s`):**
+   * Setelah transaksi pesan selesai, `ComNet Server`, `Gooaya Server`, dan `PC2` saling bertukar paket `TCP` penutup untuk mengakhiri sesi dengan aman.
+
+### 2. Alur Penerimaan Email (POP3)
+Setelah daftar peristiwa (*Event List*) dibersihkan, pengujian pengambilan pesan dilakukan dari `PC1` melalui tombol **Receive**, yang berlangsung selama **`0.000s` hingga `0.015s`**:
+
+1. **Pembentukan Koneksi TCP (`0.000s – 0.004s`):**
+   * `PC1` mengirimkan permintaan koneksi `TCP` via `Switch0` ke `Gooaya Server` (`192.168.1.5`), yang kemudian direspons balik oleh server.
+2. **Pengambilan Pesan Menggunakan POP3 (`0.004s – 0.009s`):**
+   * `PC1` menjalankan protokol **POP3** untuk meminta daftar dan isi pesan baru dari `Gooaya Server`.
+   * `Gooaya Server` memproses permintaan autentikasi dan mengirimkan paket data email kembali ke `PC1` melalui `Switch0`.
+3. **Konfirmasi & Penutupan Sesi (`0.009s – 0.015s`):**
+   * `PC1` dan `Gooaya Server` bertukar paket konfirmasi `TCP` (`ACK`) sebelum menutup sesi komunikasi pengunduhan pesan.
 
 ---
 
 ## ✅ Hasil Verifikasi
 
-Simulasi berjalan dengan tingkat keberhasilan **100%**. Email dari `nicho@compnet.com` berhasil diterima pada *Mail Browser* klien penerima di **PC1**:
-
-```text
-From    : nicho@compnet.com
-Subject : Tes Simulation
-Sent    : Mon Sep 14 2026 16:37:17
-Message : ini tes simulation kirim email
-```
-
----
-
-## 👩‍💻 Author
-
-**Valencia Theodora**  
-[LinkedIn](https://www.linkedin.com/in/valencia-theodora) | [GitHub](https://github.com/valenciatheodora07-tech)
+| Skenario Pengujian | Parameter Uji | Hasil Observasi |
+| :--- | :--- | :--- |
+| **Registrasi Akun Mail** | User `nicho` pada `ComNet Server` (`compnet.com`) | Akun tersimpan aktif dan dapat digunakan untuk autentikasi klien `PC2`. |
+| **Pengiriman Lintas Domain** | `nicho@compnet.com` ➔ `miau@gooaya.com` | Resolusi DNS berhasil dan pesan diteruskan via SMTP tanpa *packet loss*. |
+| **Penerimaan Pesan Klien** | Klik `Receive` pada `Mail Browser` `PC1` | Email dengan subjek **`Tes Simulation`** dan isi **`ini tes simulation kirim email`** tampil di kotak masuk `PC1`. |
