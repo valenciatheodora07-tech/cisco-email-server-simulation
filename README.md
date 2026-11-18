@@ -1,5 +1,5 @@
 # cisco-email-server-simulation
-Perancangan, konfigurasi, dan simulasi infrastruktur Email Server lintas domain (SMTP, POP3, DNS, dan TCP) menggunakan Cisco Packet Tracer beserta analisis pertukaran paket.
+Design, configuration, and packet-level protocol simulation of a cross-domain Email Server infrastructure (SMTP, POP3, DNS, and TCP) in Cisco Packet Tracer.
 # 📧 Cross-Domain Email Server Simulation — Cisco Packet Tracer
 
 This repository documents the design, configuration, and protocol-level packet analysis of a **cross-domain Email Server infrastructure** built in **Cisco Packet Tracer**. The simulation examines how clients and servers communicate using **TCP**, **DNS**, **SMTP**, and **POP3** during outbound and inbound email transactions across separate domains (`compnet.com` to `gooaya.com`).
