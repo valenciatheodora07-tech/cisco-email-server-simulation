@@ -25,6 +25,10 @@ This repository documents the design, configuration, and protocol-level packet a
 ---
 
 ## 🌐 Network Architecture & Topology
+- `DNS Server`: Domain Name System server resolving domain names to their corresponding IPv4 addresses.
+  - `First Server` & `Second Server`: Supporting local network infrastructure servers.
+
+![Network Architecture & Topology](images/network-topology.png)
 
 The local network uses a star topology centered on a **Cisco Catalyst 2950-24 (`Switch0`)** connecting all client workstations and dedicated servers:
 
@@ -40,6 +44,11 @@ The local network uses a star topology centered on a **Cisco Catalyst 2950-24 (`
 ## ⚙️ IP Addressing & Service Configuration
 
 ### 1. Server Configuration
+| **Gooaya Server** | Email Server (Destination) | `192.168.1.5` | `255.255.255.0` | Domain: `gooaya.com` (`SMTP`: ON, `POP3`: ON) |
+| **DNS Server** | Name Resolution | — | — | `DNS`: ON (A-records for `compnet.com` & `gooaya.com`) |
+
+![ComNet Server Email & IP Configuration](images/comnet-server-config.png)
+
 | Device Name | Service Role | IPv4 Address | Subnet Mask | Domain / Active Services |
 | :--- | :--- | :---: | :---: | :--- |
 | **ComNet Server** | Email Server (Source) | `192.168.1.6` | `255.255.255.0` | Domain: `compnet.com` (`SMTP`: ON, `POP3`: ON) |
@@ -59,7 +68,13 @@ The local network uses a star topology centered on a **Cisco Catalyst 2950-24 (`
 Testing was conducted by composing and sending an email from `nicho@compnet.com` (`PC2`) to `miau@gooaya.com` (`PC1`) with the subject **`Tes Simulation`**.
 
 ### 1. Outbound Email Flow (SMTP & DNS)
+
 The end-to-end transmission from `PC2` through `ComNet Server` to `Gooaya Server` takes place between **`0.000s` and `0.026s`**:
+
+![Outbound SMTP & DNS Simulation Event List-1](images/smtp-dns-simulation-1.png)
+![Outbound SMTP & DNS Simulation Event List-2](images/smtp-dns-simulation-2.png)
+![Outbound SMTP & DNS Simulation Event List-3](images/smtp-dns-simulation-3.png)
+![Outbound SMTP & DNS Simulation Event List-4](images/smtp-dns-simulation-4.png)
 
 1. **Initial Connection Setup / TCP Handshake (`0.000s – 0.004s`):**
    * `PC2` initiates a `TCP` session through `Switch0`.
@@ -87,6 +102,10 @@ After clearing the event list, message retrieval was initiated on `PC1` by click
 ---
 
 ## ✅ Verification Results
+
+| **Client Mail Retrieval** | Click `Receive` in `PC1` Mail Browser | Email with subject **`Tes Simulation`** and body **`ini tes simulation kirim email`** appeared in `PC1`'s inbox. |
+
+![Verified Email Received on PC1](images/received-email-verification.png)
 
 | Test Case | Test Parameter | Observed Result |
 | :--- | :--- | :--- |
